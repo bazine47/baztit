@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -133,6 +133,37 @@
             margin: 1.5rem 0;
         }
 
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-login a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .social-login a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .social-login a i {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
         @media (max-width: 480px) {
             .container {
                 width: 90%;
@@ -190,6 +221,11 @@
             <button type="submit">إنشاء حساب</button>
         </form>
         <div class="success-message" id="successMessage">تم إنشاء الحساب بنجاح!</div>
+        <div class="social-login">
+            <a href="#" title="تسجيل الدخول باستخدام Google"><i class="fab fa-google"></i></a>
+            <a href="#" title="تسجيل الدخول باستخدام Facebook"><i class="fab fa-facebook-f"></i></a>
+            <!-- يمكنك إضافة المزيد من الروابط هنا -->
+        </div>
         <div class="login-link">
             لديك حساب بالفعل؟ <a href="login.html">تسجيل الدخول</a>
         </div>
@@ -253,9 +289,9 @@
             }
 
             // التحقق من قوة كلمة المرور
-            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
             if (!passwordRegex.test(password)) {
-                document.getElementById('passwordError').textContent = 'كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل، وتشمل حروف كبيرة وصغيرة وأرقام ورموز خاصة';
+                document.getElementById('passwordError').textContent = 'كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل، وتشمل حروف كبيرة وصغيرة وأرقام';
                 document.getElementById('passwordError').style.display = 'block';
                 return;
             }

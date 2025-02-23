@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --gradient: linear-gradient(135deg, #6366f1, #4f46e5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background: var(--gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--secondary);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 45px 12px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+            input:focus {
+                border-color: var(--primary);
+                box-shadow: 0 0 10px rgba(99, 102, 241, 0.25);
+            }
+
+        .icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        button {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 12px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            width: 100%;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+            button:hover {
+                opacity: 0.9;
+                transform: translateY(-2px);
+            }
+
+        .login-link, .forgot-password {
+            margin-top: 1.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+            .login-link a, .forgot-password a {
+                color: var(--secondary);
+                font-weight: 600;
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+
+                .login-link a:hover, .forgot-password a:hover {
+                    color: var(--primary);
+                }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .success-message {
+            color: green;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .g-recaptcha {
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 90%;
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            input {
+                padding: 10px 40px 10px 10px;
+            }
+
+            .icon {
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>إنشاء حساب جديد</h1>
+        <form id="signupForm">
+            <div class="form-group">
+                <div class="input-wrapper">
+                    <input type="text" id="username" placeholder="اسم المستخدم" required>
+                    <i class="fas fa-user icon"></i>
+                </div>
+                <div class="error-message" id="usernameError"></div>
+            </div>
+            <div class="form-group">
+                <div class="input-wrapper">
+                    <input type="email" id="email" placeholder="البريد الإلكتروني" required>
+                    <i class="fas fa-envelope icon"></i>
+                </div>
+                <div class="error-message" id="emailError"></div>
+            </div>
+            <div class="form-group">
+                <div class="input-wrapper">
+                    <input type="password" id="password" placeholder="كلمة المرور" required>
+                    <i class="fas fa-lock icon"></i>
+                    <i class="fas fa-eye icon" id="togglePassword" style="cursor: pointer; left: 15px; right: auto;"></i>
+                </div>
+                <div class="error-message" id="passwordError"></div>
+            </div>
+            <div class="form-group">
+                <div class="input-wrapper">
+                    <input type="password" id="confirmPassword" placeholder="تأكيد كلمة المرور" required>
+                    <i class="fas fa-lock icon"></i>
+                </div>
+                <div class="error-message" id="confirmPasswordError"></div>
+            </div>
+            <div class="g-recaptcha" data-sitekey="your_site_key"></div>
+            <button type="submit">إنشاء حساب</button>
+        </form>
+        <div class="success-message" id="successMessage">تم إنشاء الحساب بنجاح!</div>
+        <div class="login-link">
+            لديك حساب بالفعل؟ <a href="login.html">تسجيل الدخول</a>
+        </div>
+        <div class="forgot-password">
+            <a href="forgot-password.html">نسيت كلمة المرور؟</a>
+        </div>
+    </div>
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // التحقق من reCAPTCHA
+            const recaptchaResponse = grecaptcha.getResponse();
+            if (!recaptchaResponse) {
+                alert('يرجى التحقق من أنك لست روبوتًا.');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // إخفاء رسائل الخطأ
+            document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+
+            // التحقق من الحقول الفارغة
+            if (!username.trim()) {
+                document.getElementById('usernameError').textContent = 'يرجى إدخال اسم المستخدم';
+                document.getElementById('usernameError').style.display = 'block';
+                return;
+            }
+
+            // التحقق من صحة اسم المستخدم
+            const usernameRegex = /^[a-zA-Z0-9_]+$/;
+            if (!usernameRegex.test(username)) {
+                document.getElementById('usernameError').textContent = 'اسم المستخدم يجب أن يحتوي على أحرف وأرقام فقط';
+                document.getElementById('usernameError').style.display = 'block';
+                return;
+            }
+
+            if (!email.trim()) {
+                document.getElementById('emailError').textContent = 'يرجى إدخال البريد الإلكتروني';
+                document.getElementById('emailError').style.display = 'block';
+                return;
+            }
+
+            // التحقق من صحة البريد الإلكتروني
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').textContent = 'البريد الإلكتروني غير صحيح';
+                document.getElementById('emailError').style.display = 'block';
+                return;
+            }
+
+            if (!password.trim()) {
+                document.getElementById('passwordError').textContent = 'يرجى إدخال كلمة المرور';
+                document.getElementById('passwordError').style.display = 'block';
+                return;
+            }
+
+            // التحقق من قوة كلمة المرور
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordRegex.test(password)) {
+                document.getElementById('passwordError').textContent = 'كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل، وتشمل حروف كبيرة وصغيرة وأرقام ورموز خاصة';
+                document.getElementById('passwordError').style.display = 'block';
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').textContent = 'كلمات المرور غير متطابقة';
+                document.getElementById('confirmPasswordError').style.display = 'block';
+                return;
+            }
+
+            // التحقق من عدم تكرار اسم المستخدم أو البريد الإلكتروني
+            if (users.some(u => u.username === username)) {
+                document.getElementById('usernameError').textContent = 'اسم المستخدم موجود مسبقًا';
+                document.getElementById('usernameError').style.display = 'block';
+                return;
+            }
+            if (users.some(u => u.email === email)) {
+                document.getElementById('emailError').textContent = 'البريد الإلكتروني موجود مسبقًا';
+                document.getElementById('emailError').style.display = 'block';
+                return;
+            }
+
+            // إضافة المستخدم الجديد
+            const userData = { username, email, password };
+            users.push(userData);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // عرض رسالة النجاح
+            document.getElementById('successMessage').style.display = 'block';
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 2000); // توجيه إلى تسجيل الدخول بعد ثانيتين
+        });
+
+        // إظهار وإخفاء كلمة المرور
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
+</body>
+</html>
